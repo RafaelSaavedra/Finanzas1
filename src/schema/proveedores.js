@@ -1,7 +1,7 @@
 const mongoose = require ('mongoose');
 const Schema = mongoose.Schema
 
-const clienteSchema = new mongoose.Schema ({
+const proveedorSchema = new mongoose.Schema ({
     nombre : {
         type : String,
         required : true
@@ -11,11 +11,11 @@ const clienteSchema = new mongoose.Schema ({
         required : false
     }
     /*,
-    productos : [{
+    matPrimas : [{
         type : Schema.Types.ObjectId,
-        ref : 'Producto'
+        ref : 'MatPrima'
     }]
 */
 })
 
-module.exports = mongoose.model('Cliente', clienteSchema)
+module.exports = mongoose.model('Proveedor', proveedorSchema)

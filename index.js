@@ -8,9 +8,13 @@ const
   }
  = require('./config')
 const mongoose = require ('mongoose');
-const ingreso = require ('./src/routes/ingresos');
-const egreso = require ('./src/routes/egresos');
+const ingresos = require ('./src/routes/ingresos');
+const egresos = require ('./src/routes/egresos');
 const productos = require ('./src/routes/productos')
+const matPrimas = require ('./src/routes/matPrimas');
+const clientes = require ('./src/routes/clientes');
+const proveedores = require ('./src/routes/proveedores');
+
 const morgan = require ('morgan')
 
 //console.log( )
@@ -30,6 +34,12 @@ app.use(express.urlencoded({
     extends : true // tarea investigar para que sirve esta linea de codigo
 }))
 app.use('/api/productos', productos)
+app.use('/api/ingresos', ingresos)
+app.use('/api/clientes', clientes)
+app.use('/api/matPrimas', matPrimas)
+app.use('/api/egresos', egresos)
+app.use('/api/proveedores', proveedores)
+
 
 
 mongoose.connect(MONGOOSE_CONNECT)

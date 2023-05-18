@@ -1,26 +1,26 @@
 const express = require('express')
-const Productos = require('../schema/productos')
+const MatPrimas = require('../schema/matPrimas')
 const router = express.Router()
 
 
 router.get('/', (req, res) => {
 
     res.json({
-        Hello : 'Mundo Productos'
+        Hello : 'Mundo MatPrimas'
     })
 })
 
 router.post('/',async (req, res) => {
     const body = req.body
     console.log(body.nombre)
-     const producto = new Productos({
+     const matPrima = new MatPrimas({
         nombre : body.nombre,
         clave : body.clave,
         precio : body.precio,
         impuestos : body.impuestos,
     })
-    producto.save()
-    return res.json({producto})
+    matPrima.save()
+    return res.json({matPrima})
 })
 
 module.exports = router

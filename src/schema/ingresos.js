@@ -4,13 +4,15 @@ const ingresoSchema = new mongoose.Schema ({
     fecha : {
         type: Date , 
         default: Date.now
+       //type : String
     },
     factura : {
         type: String
     },
     cliente : {
-        type : Schema.Types.ObjectId,
-        ref :   'Cliente' 
+       // type : Schema.Types.ObjectId,
+        //ref :   'Cliente' 
+        //type: String
     },
     producto : {
         type : String // para no null: required : true
@@ -18,10 +20,10 @@ const ingresoSchema = new mongoose.Schema ({
     claveProducto : {
         type : String
     },
-    precio :{
+    precio : {
         type : Number
     },
-    cantidad :{
+    cantidad : {
         type : Number
     },
     total : {

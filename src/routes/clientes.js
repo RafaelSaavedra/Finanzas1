@@ -1,26 +1,25 @@
 const express = require('express')
-const Productos = require('../schema/productos')
+const Clientes = require('../schema/clientes')
 const router = express.Router()
 
 
 router.get('/', (req, res) => {
 
     res.json({
-        Hello : 'Mundo Productos'
+        Hello : 'Mundo Clientes'
     })
 })
 
 router.post('/',async (req, res) => {
     const body = req.body
     console.log(body.nombre)
-     const producto = new Productos({
+     const cliente = new Clientes({
         nombre : body.nombre,
         clave : body.clave,
-        precio : body.precio,
-        impuestos : body.impuestos,
+
     })
-    producto.save()
-    return res.json({producto})
+    cliente.save()
+    return res.json({cliente})
 })
 
 module.exports = router
