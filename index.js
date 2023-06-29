@@ -47,7 +47,7 @@ mongoose.connect(MONGOOSE_CONNECT)
     console.log('Se ha conectado a la base de datos');
     
 }).catch((err) => {
-    console.log('Se ha encontrado un error: ', err);
+    console.log('Se ha encontrado un error al conectar a base de datos: ', err);
     
 });
 

@@ -10,12 +10,12 @@ const clienteSchema = new mongoose.Schema ({
         type : String,
         required : false
     }
-    /*,
+    ,
     productos : [{
         type : Schema.Types.ObjectId,
         ref : 'Producto'
     }]
-*/
+
 })
 
 module.exports = mongoose.model('Cliente', clienteSchema)

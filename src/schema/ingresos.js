@@ -12,7 +12,7 @@ const ingresoSchema = new mongoose.Schema ({
     cliente : {
        // type : Schema.Types.ObjectId,
         //ref :   'Cliente' 
-        //type: String
+        type: String
     },
     producto : {
         type : String // para no null: required : true
