@@ -2,37 +2,42 @@ const express = require('express')
 const Ingresos = require('../schema/ingresos')
 const router = express.Router()
 const {validateCreate} = require('../validaciones/ingresos')
+
 router.post('/', (req, res) => {
-    const body = req.body
-    const {status, message} = validateCreate(body)
-    if (status){
-        res.json({"Mensaje" : message}),400
-    }else{
-        console.log(status, message)
+
+        let {status1, message} = validateCreate(req.body)
+        if (status1){
+            return res.json({message}),400
+        }else{
+            console.log("Aqui va status y message: ",status1, message);
+        } 
+
+        const body = req.body
         const ingreso = new Ingresos({
-            fecha : body.fecha,
+        
             factura : body.factura,
             cliente : body.cliente,
             producto : body.producto,
             claveProducto : body.claveProducto,
             precio : body.precio,
             cantidad : body.cantidad,
-            total : body.total,
+            total : body.precioTotal,
             impuestos : body.impuestos,
             credito : body.credito,
             status : body.status
-        })
-    
+        }) 
+        
         ingreso.save()
         return res.json({ingreso})
-    }
-   
-})
+    
+
+}) 
 
 
 
 router.get('/', (req, res) => {
     //res.json({Hello : 'Mundo Ingresos'})
+
     Ingresos.find()
     .then(ingresosArray => {
         res.json({ingresosArray})
@@ -57,8 +62,20 @@ router.get ('/:id', (req, res) => {
 })
 
 router.put('/', (req, res) => {
+
+   
+
+    const {status1, message} = validateCreate(req.body)
+    if (status1){
+        res.json({"Mensaje" : message}),400
+    }else{
+        console.log("Aqui va status y message: ",status1, message);
+    } 
+
     const body = req.body
-    const{cliente, producto, claveProducto, precio, cantidad, total, impuestos, credito, status} = req.body
+    const{cliente, producto, claveProducto, precio, cantidad, precioTotal, impuestos, credito, status} = req.body
+
+    
 
     Ingresos.findByIdAndUpdate(
         body.id,
@@ -70,7 +87,7 @@ router.put('/', (req, res) => {
                 claveProducto,
                 precio,
                 cantidad,
-                total,
+                precioTotal,
                 impuestos,
                 credito,
                 status
@@ -89,8 +106,20 @@ router.put('/', (req, res) => {
 })
 
 router.patch ('/:ingresoId', (req, res)=> {
+
+    
+
+    const {status1, message} = validateCreate(req.body)
+    if (status1){
+        res.json({"Mensaje" : message}),400
+    }else{
+        console.log("Aqui va status y message: ",status1, message);
+    } 
+
+    const body = req.body
     const ingresoId = req.params.ingresoId
-    const {factura,cliente,producto,claveProducto,precio,cantidad,total,impuestos,credito,status}= req.body
+    const {factura,cliente,producto,claveProducto,precio,cantidad,precioTotal,impuestos,credito,status}= req.body
+
     Ingresos.findByIdAndUpdate(
         ingresoId,
         {$set:{
@@ -100,7 +129,7 @@ router.patch ('/:ingresoId', (req, res)=> {
                 claveProducto,
                 precio,
                 cantidad,
-                total,
+                precioTotal,
                 impuestos,
                 credito,
                 status
@@ -114,7 +143,7 @@ router.patch ('/:ingresoId', (req, res)=> {
     .catch((err)=> {
         res.json({"Mensaje": err})
     })
-})
+}) 
 
 router.delete('/:ingresoId', (req, res)=> {
     const ingresoId = req.params.ingresoId

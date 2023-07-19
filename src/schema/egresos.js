@@ -14,10 +14,10 @@ const egresoSchema = new mongoose.Schema ({
     materiaPrima : {
         type : String // para no null: required : true
     },
-    claveItem : {
+    claveMatPrima: {
         type : String
     },
-    precioUnitario :{
+    precio :{
         type : Number
     },
 
@@ -30,7 +30,7 @@ const egresoSchema = new mongoose.Schema ({
     impuestos : {
         type : Number
     },
-    diasCredito : {
+    credito : {
         type : Number
     },
     status : {

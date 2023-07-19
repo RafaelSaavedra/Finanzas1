@@ -1,24 +1,36 @@
 const express = require('express')
 const Egresos = require('../schema/egresos')
-const router = express.Router()
+const {validateCreate} = require('../validaciones/egresos')
+const router = express.Router() 
 
 router.post('/',async (req, res) => {
-    const body = req.body
-    console.log(body.nombre)
-     const egreso = new Egresos({
+
+    const {status1, message} = validateCreate(req.body)
+    if (status1){
+        res.json({"Mensaje" : message}),400
+    }else{
+        console.log("Aqui va status y message: ",status1, message);
+    } 
+ 
+    const body = req.body   
+
+    const egreso = new Egresos({  
         fecha : body.fecha,
         factura : body.factura,
         proveedor : body.proveedor,
-        matPrima : body.matPrima,
-        claveMatPrima : body.claveMatPrima,
+        materiaPrima : body.materiaPrima,
+        claveMatPrima : body.claveMatPrima ,
         precio : body.precio,
         cantidad : body.cantidad,
-        total : body.total,
+        precioTotal : body.precioTotal,
         impuestos : body.impuestos,
-        credito : body.credito,
+        credito : body.credito,   
         status : body.status
     })
+    
+    
     egreso.save()
+    
     return res.json({egreso})
 })
 
@@ -49,8 +61,17 @@ router.get('/:id', (req, res) => {
 } )
 
 router.put('/', (req, res) =>{
+
+    const {status1, message} = validateCreate(req.body)
+    if (status1){
+        return res.json({"Mensaje" : message}),400
+    }else{
+        console.log("Aqui va status y message: ", status1, message);
+    } 
+
     const body = req.body
-    const{proveedor, matPrima, claveMatPrima,precio, cantidad, total, impuestos, credito, status} = req.body
+    //console.log(body)
+    const{proveedor, materiaPrima, claveMatPrima,precio, cantidad, precioTotal, impuestos, credito, status} = req.body
 
     Egresos.findByIdAndUpdate(
         body.id,
@@ -58,11 +79,11 @@ router.put('/', (req, res) =>{
             $set:{
                 factura : body.factura,
                 proveedor,
-                matPrima,
+                materiaPrima,
                 claveMatPrima,
                 precio,
                 cantidad,
-                total,
+                precioTotal,
                 impuestos,
                 credito,
                 status
@@ -73,7 +94,7 @@ router.put('/', (req, res) =>{
     )
 
     .then(() => {
-       res.json({Mensaje: "Egreso Actualizado"}), 205
+    res.json({Mensaje: "Egreso Actualizado"}), 205
         
     })
 
@@ -84,19 +105,28 @@ router.put('/', (req, res) =>{
 })
 
 router.patch('/:egresoId', (req, res)=> {
+
+    const {status1, message} = validateCreate(req.body)
+    if (status1){
+        return res.json({"Mensaje" : message}),400
+    }else{
+        console.log("Aqui va status y message: ", status1, message);
+    } 
+
+    //const body = req.body
     const egresoId = req.params.egresoId
-    const{factura,proveedor,matPrima,claveMatPrima,precio,cantidad,total,impuestos,credito,status}= req.body
+    const{factura,proveedor,materiaPrima,claveMatPrima,precio,cantidad,precioTotal,impuestos,credito,status}= req.body
 
     Egresos.findByIdAndUpdate(
         egresoId,
         {$set:{
             factura,
                 proveedor,
-                matPrima,
+                materiaPrima,
                 claveMatPrima,
                 precio,
                 cantidad,
-                total,
+                precioTotal,
                 impuestos,
                 credito,
                 status
@@ -108,9 +138,9 @@ router.patch('/:egresoId', (req, res)=> {
             res.json({"Mensaje":"Registro de Egresos Actualizado"}),200
         })
         .catch((err)=> {
-            res.json({"Mensaje": err})
+            res.json({"Mensaje": err}) 
         })
-    })
+    }) 
 
     router.delete('/:egresoId', (req,res)=> {
         const egresoId = req.params.egresoId
@@ -122,7 +152,9 @@ router.patch('/:egresoId', (req, res)=> {
         })
         .catch((err)=> {
             res.json({err})
-        })
+        })  
     })
+
+
 
 module.exports = router

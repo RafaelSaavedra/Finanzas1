@@ -1,11 +1,20 @@
 const express = require('express')
 const MatPrimas = require('../schema/matPrimas')
+const { validateCreate } = require('../validaciones/matPrimas')
 const router = express.Router()
 
 
-router.post('/',async (req, res) => {
+router.post('/', (req, res) => {
+    
+    let {status, message} = validateCreate(req.body)
+    if(status){
+        return res.json({message}), 400;
+    }else{
+        console.log("Aqui va status y message: ",status, message);
+    }   
+    
     const body = req.body
-    console.log(body.nombre)
+    //console.log(body.nombre)
      const matPrima = new MatPrimas({
         nombre : body.nombre,
         clave : body.clave,
@@ -41,30 +50,47 @@ router.get('/:id', (req, res) => {
 })
 
 router.put('/', (req,res) => {
-    const body = req.body
-    const{clave, precio, impuestos} = req.body
-    MatPrimas.findByIdAndUpdate(
-    body.id,
-    {
-        $set:{
-        nombre : body.nombre,
-        clave,
-        precio,
-        impuestos    
-        }
-    },{
-       new:true
-    })
-    .then (() => {
-        res.json({Mensaje:"MatPrima actualizada"}),205
-    })
-    .catch ((error) => {
-        res.json({error})
-    })
-    //res.json({body})
-})
+    
+    let {status, message} = validateCreate(req.body)
+    if(status){
+        return res.json({message}), 400;
+    }else{
+        console.log("Aqui va status y message: ",status, message);
+        const body = req.body
+        const{clave, precio, impuestos} = req.body
+        MatPrimas.findByIdAndUpdate(
+        body.id,
+        {
+            $set:{
+            nombre : body.nombre,
+            clave,
+            precio,
+            impuestos    
+            }
+        },{
+        new:true
+        })
+        .then (() => {
+            //res.json({Mensaje:"MatPrima actualizada"}),205
+            res.json({body})
+        })
+        .catch ((error) => {
+            res.json({error})
+        })
+        //res.json({body})
+    }  
+    
+}) 
 
 router.patch('/:matPrimaId', (req,res) => {
+    
+    let {status, message} = validateCreate(req.body)
+    if(status){
+        return res.json({message}), 400;
+    }else{
+        console.log("Aqui va status y message: ",status, message);
+    }  
+
     const matPrimaId = req.params.matPrimaId
     const {
         nombre, clave, precio, impuestos

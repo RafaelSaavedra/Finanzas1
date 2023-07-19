@@ -8,7 +8,11 @@ const clienteSchema = new mongoose.Schema ({
     },
     clave : {
         type : String,
-        required : false
+        required : true
+    },
+    correoE : {
+        type : String,
+        required : true
     }
     ,
     productos : [{

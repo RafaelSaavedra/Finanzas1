@@ -2,11 +2,11 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const 
-  {
+{
     MONGOOSE_CONNECT,
     PORT
-  }
- = require('./config')
+}
+= require('./config')
 const mongoose = require ('mongoose');
 const ingresos = require ('./src/routes/ingresos');
 const egresos = require ('./src/routes/egresos');
@@ -24,8 +24,8 @@ mongoose.connect('mongodb+srv://Rafael:15Anestesiologia20@cluster0.rnudzg3.mongo
 , //(err) => {
    // if( err) return console.log('Error al conectar a mongo...');
 
-     console.log('Conexión a Mongo exitosa !'); 
-   
+    console.log('Conexión a Mongo exitosa !'); 
+
 //})
 */
 app.use(morgan("dev"))

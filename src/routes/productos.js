@@ -3,6 +3,7 @@
 const express = require('express')
 //Este exporta el esquema que se ocupará para hacer el CRUD de productos esto quiere decir que lo ocuparemos para manipular la base de datos
 const Productos = require('../schema/productos')
+const { validateCreate } = require('../validaciones/productos')
 //Esto nos ayuda a crear las rutas y ponerles de que tipo sea por ej get, post, put, patch, delete
 const router = express.Router()
 
@@ -64,8 +65,15 @@ router.get('/', (req, res) => {
 //TAREA investigar que es un get, un post, un delete, un put y un patch
 //TAREA ejemplos de cada uno
 //TAREA etudiar los status de respuesta de un API
-
+ 
    router.put('/', (req, res) => {
+    //Con esta funcion haremos validaciones, asegurarnos de que se escriban correctamente los reqs
+    let {status, message} = validateCreate(req.body)
+    if(status){
+        return res.json({message}), 400; 
+    }else{
+        console.log("Aqui va status y message: ",status, message);
+    }  
     //Como buenas practicas, cuando se pide un objeto o varios parametros, se piden a través de un body, normalmente se ocupa en post, put y patch
     //las siguientes dos formas se ocupan para extraer la información del body así como el mismo ejemplo del params
     //body lo extraemos como un objeto y vamos a extraer su información como tal, así como la linea 75 y 78
@@ -91,14 +99,14 @@ router.get('/', (req, res) => {
             }
         },{
             //le decimos que sí haga el cambio
-           new: true 
+            new: true 
         }
     )
 // si esto esta correcto nos regresa la informacion
     .then (() => {
         
-        //res.json({Mensaje: "Producto Actualizado"}),205
-        res.json({body})
+        res.json({Mensaje: "Producto Actualizado"}),205
+        //res.json({body})
     })
     .catch ((error) => {
         res.json({error})
@@ -121,6 +129,13 @@ router.get('/', (req, res) => {
    //Req recibe la petición del cliente y res es la respuesta que da el servidor
 
    router.patch('/:productId', (req,res) => {
+    //Aqui validamos el req antes de ejecutar la peticion
+    let {status, message} = validateCreate(req.body)
+    if(status){
+        return res.json({message}), 400;
+    }else{
+        console.log("Aqui va status y message: ",status, message);
+    }  
     //la constante productId es la que va a recibir los parametros de la url
     const productId = req.params.productId
     //la constante que recibe todos los componentes del body nos la da req.body
@@ -156,12 +171,13 @@ router.get('/', (req, res) => {
 
 //Asi debe ser la ruta cuando se quiere sacar el valor por query, esta es otra forma para sacar informacion a través de la url
 //pongaSuIdAqui/?productId=647157463ba5dc51c099b198
-   //router.delete('/:productId', (req, res)=> {
+   router.delete('/:productId', (req, res)=> {
     //  /pongaSuIdAqui, solo es una representación y no se debe hacer en ambientes productivos
-    router.delete('/pongaSuIdAqui', (req, res) =>{
-    //const productId = req.params.productId
+   // router.delete('/', (req, res) =>{
+       // router.delete('/pongaSuIdAqui',(req,res)=> {
+    const productId = req.params.productId
     //para tomar la query, en la ruta se debe poner un signo de interrogacion y ya despues el nombre de la variable, en este caso, se llama: productId
-    const productId = req.query.productId
+    //const productId = req.query.productId
     //Aquí ya aplicamos el método de findByIdAndDelete que recibe el productId y con eso ya elimina todo
 
     Productos.findByIdAndDelete(
@@ -179,6 +195,12 @@ router.get('/', (req, res) => {
 
 //Este metodo crea un nuevo producto
 router.post('/', (req, res) => {
+    let {status, message} = validateCreate(req.body)
+    if(status){
+        return res.json({message}), 400;
+    }else{
+        console.log("Aqui va status y message: ",status, message);
+    }  
     //Para hacer el post defines una constante que va a ser el cuerpo del producto
     const body = req.body
     console.log(body.nombre)
@@ -187,7 +209,7 @@ router.post('/', (req, res) => {
         nombre : body.nombre,
         clave : body.clave,
         precio : body.precio,
-        impuestos : body.impuestos,
+        impuestos : body.impuestos, 
     })
     //Aqui le pides que guarde ese objeto en la base de datos
     producto.save()

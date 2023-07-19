@@ -1,5 +1,6 @@
 const express = require('express')
 const Clientes = require('../schema/clientes')
+const { validateCreate } = require('../validaciones/clientes')
 const router = express.Router()
 
 //Aqui con get obtenemos la lista de clientes y el async/await nos omite la promesa y hace esperar a que se realize el find de los clientes
@@ -19,7 +20,17 @@ router.get('/:id', async (req,res) => {
 })
 
 router.put('/', async(req, res) => {
-    const {nombre, clave, productos, id} = req.body
+
+    const body = req.body
+    
+    let {status, message} = validateCreate(req.body)
+    if(status){
+        return res.json({message}), 400;
+    }else{
+        console.log("Aqui va status y message: ",status, message);
+    } 
+
+    const {nombre, clave, correoE, productos, id} = req.body
     let cliente = await Clientes.findByIdAndUpdate(
        // req.body.id  EN ESTE PUNTO YA NO REQUIERO EL BODY.ID PORQUE LO PEDI DESDE LA LINEA 14
         id,
@@ -28,6 +39,7 @@ router.put('/', async(req, res) => {
             $set:{
                 nombre,
                 clave,
+                correoE,
                 productos
             }
         },
@@ -48,7 +60,15 @@ router.delete('/:clienteId', async(req, res) => {
 
 
 router.patch('/:clienteId', async(req, res) => {
-    const {nombre, clave, productos, id} = req.body
+
+    let {status, message} = validateCreate(req.body)
+    if(status){
+        return res.json({message}), 400;
+    }else{
+        console.log("Aqui va status y message: ",status, message);
+    }
+
+    const {nombre, clave, correoE, productos, id} = req.body
     let cliente = await Clientes.findByIdAndUpdate(
        // req.body.id en este punto ya no req.bodyId porque lo pedí desde linea 32 
         id,
@@ -57,6 +77,7 @@ router.patch('/:clienteId', async(req, res) => {
             $set:{
                 nombre,
                 clave,
+                correoE,
                 productos
             }
         },
@@ -64,14 +85,24 @@ router.patch('/:clienteId', async(req, res) => {
     )
     res.json({cliente})
     })
-
+ 
 // Con POST creamos un nuevo elemento en la base de datos
 router.post('/',async (req, res) => {
+    
+    let {status, message} = validateCreate(req.body)
+    if(status){
+        return res.json({message}), 400;
+    }else{
+        console.log("Aqui va status y message: ",status, message);
+    }
+
     const body = req.body
     console.log(body.nombre)
+
     const cliente = new Clientes({
         nombre : body.nombre,
         clave : body.clave,
+        correoE : body.correoE,
         // En esta parte solo se pasa el id del producto y los va juntando
         productos : body.productos
     })
