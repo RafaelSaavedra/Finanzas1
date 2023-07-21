@@ -3,7 +3,6 @@ const Clientes = require('../schema/clientes')
 const { validateCreate } = require('../validaciones/clientes')
 const router = express.Router()
 
-//Aqui con get obtenemos la lista de clientes y el async/await nos omite la promesa y hace esperar a que se realize el find de los clientes
 router.get('/', async (req, res) => {
     let clientes = await Clientes.find()
     res.json({
