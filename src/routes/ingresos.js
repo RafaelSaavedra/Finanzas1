@@ -30,13 +30,9 @@ router.post('/', (req, res) => {
         ingreso.save()
         return res.json({ingreso})
     
-
 }) 
 
-
-
 router.get('/', (req, res) => {
-    //res.json({Hello : 'Mundo Ingresos'})
 
     Ingresos.find()
     .then(ingresosArray => {
@@ -48,7 +44,7 @@ router.get('/', (req, res) => {
 })
 
 router.get ('/:id', (req, res) => {
-    //const ingresosId = req.params.id
+
     const{id} = req.params
     Ingresos.findById(id)
     
@@ -63,8 +59,6 @@ router.get ('/:id', (req, res) => {
 
 router.put('/', (req, res) => {
 
-   
-
     const {status1, message} = validateCreate(req.body)
     if (status1){
         res.json({"Mensaje" : message}),400
@@ -74,8 +68,6 @@ router.put('/', (req, res) => {
 
     const body = req.body
     const{cliente, producto, claveProducto, precio, cantidad, precioTotal, impuestos, credito, status} = req.body
-
-    
 
     Ingresos.findByIdAndUpdate(
         body.id,
@@ -107,8 +99,6 @@ router.put('/', (req, res) => {
 
 router.patch ('/:ingresoId', (req, res)=> {
 
-    
-
     const {status1, message} = validateCreate(req.body)
     if (status1){
         res.json({"Mensaje" : message}),400
@@ -116,7 +106,6 @@ router.patch ('/:ingresoId', (req, res)=> {
         console.log("Aqui va status y message: ",status1, message);
     } 
 
-    const body = req.body
     const ingresoId = req.params.ingresoId
     const {factura,cliente,producto,claveProducto,precio,cantidad,precioTotal,impuestos,credito,status}= req.body
 

@@ -29,13 +29,13 @@ router.post('/',async (req, res) => {
     })
     
     
-    egreso.save()
+    await egreso.save()
     
     return res.json({egreso})
 })
 
 router.get('/', (req, res) => {
-    //res.json({Holaaa : 'Mundo Egresos'})
+
     Egresos.find()
     .then(egresosArray => {
         res.json({egresosArray})
@@ -46,7 +46,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    //const egresosID = req.params.id
+
     const{id} = req.params
     console.log(id)
     Egresos.findById(id)
@@ -67,14 +67,13 @@ router.put('/', (req, res) =>{
         return res.json({"Mensaje" : message}),400
     }else{
         console.log("Aqui va status y message: ", status1, message);
-    } 
+    }
 
-    const body = req.body
-    //console.log(body)
-    const{proveedor, materiaPrima, claveMatPrima,precio, cantidad, precioTotal, impuestos, credito, status} = req.body
+    const{proveedor, materiaPrima, claveMatPrima,precio, cantidad, precioTotal, impuestos, credito, status, id} = req.body
 
     Egresos.findByIdAndUpdate(
-        body.id,
+    
+        id,
         {
             $set:{
                 factura : body.factura,
@@ -101,7 +100,7 @@ router.put('/', (req, res) =>{
     .catch ((error) => {
         res.json({error})
     })
-    //res.json({body})
+
 })
 
 router.patch('/:egresoId', (req, res)=> {
@@ -113,7 +112,6 @@ router.patch('/:egresoId', (req, res)=> {
         console.log("Aqui va status y message: ", status1, message);
     } 
 
-    //const body = req.body
     const egresoId = req.params.egresoId
     const{factura,proveedor,materiaPrima,claveMatPrima,precio,cantidad,precioTotal,impuestos,credito,status}= req.body
 
@@ -143,6 +141,7 @@ router.patch('/:egresoId', (req, res)=> {
     }) 
 
     router.delete('/:egresoId', (req,res)=> {
+
         const egresoId = req.params.egresoId
         Egresos.findByIdAndDelete(
             egresoId
@@ -154,7 +153,5 @@ router.patch('/:egresoId', (req, res)=> {
             res.json({err})
         })  
     })
-
-
 
 module.exports = router

@@ -14,8 +14,8 @@ router.post('/', (req, res) => {
     }   
     
     const body = req.body
-    //console.log(body.nombre)
-     const matPrima = new MatPrimas({
+    
+    const matPrima = new MatPrimas({
         nombre : body.nombre,
         clave : body.clave,
         precio : body.precio,
@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-    //res.json({ Hello : 'Mundo MatPrimas' })
+
     MatPrimas.find()
     .then(matPrimasarray => {
         res.json({matPrimasarray})
@@ -37,9 +37,9 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    //const matPrimasId = req.params.id
+
     const{id} = req.params
-    //console.log (id)
+    
     MatPrimas.findById (id)
     .then(matPrima => {
         res.json ({matPrima})
@@ -71,15 +71,14 @@ router.put('/', (req,res) => {
         new:true
         })
         .then (() => {
-            //res.json({Mensaje:"MatPrima actualizada"}),205
+        
             res.json({body})
         })
         .catch ((error) => {
             res.json({error})
         })
-        //res.json({body})
-    }  
     
+    }     
 }) 
 
 router.patch('/:matPrimaId', (req,res) => {
@@ -92,12 +91,11 @@ router.patch('/:matPrimaId', (req,res) => {
     }  
 
     const matPrimaId = req.params.matPrimaId
-    const {
-        nombre, clave, precio, impuestos
-    } = req.body
+    const {nombre, clave, precio, impuestos} = req.body
+
     MatPrimas.findByIdAndUpdate (
         matPrimaId,
-         {
+        {
         $set: {
             nombre,
             clave,
@@ -107,16 +105,16 @@ router.patch('/:matPrimaId', (req,res) => {
     }, {
         new: true
     })
-   .then(() => {
+    .then(() => {
     res.json({"Mensaje": "Registro de Materias primas actualizado"}),200
-   })
-   .catch((err) => {
+    })
+    .catch((err) => {
     res.json({ "Mensaje": err})
-   })
+})
 })
 
 router.delete('/:matPrimaId', (req, res) =>{   
-    //const matPrimaId = req.query.matPrimaId
+
     const matPrimaId = req.params.matPrimaId
     MatPrimas.findByIdAndDelete(
         matPrimaId
@@ -128,8 +126,5 @@ router.delete('/:matPrimaId', (req, res) =>{
             res.json({err})
         })
     })
-
-
-
 
 module.exports = router
