@@ -3,6 +3,7 @@
 const express = require('express')
 //Este exporta el esquema que se ocupará para hacer el CRUD de productos esto quiere decir que lo ocuparemos para manipular la base de datos
 const Productos = require('../schema/productos')
+//Con este validamos la información que se recibe
 const { validateCreate } = require('../validaciones/productos')
 //Esto nos ayuda a crear las rutas y ponerles de que tipo sea por ej get, post, put, patch, delete
 const router = express.Router()
@@ -31,7 +32,7 @@ router.get('/', (req, res) => {
    })
 // crearemos una ruta del tipo GET, esta misma recibirá un parámetro por la url llamado id, este nombre puede declararse como uno lo desee, pero las buenas prácticas nos dicen que toda variable declarada debe de llamarse con fin de que haga referencia a qué se va a ocupar
 //para poner una variable en la url, se debe de poner : y el nombre de la variable
-   router.get('/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     //las siguientes constantes son ejemplos para poder extraer una variable del url
     //const productoId = req.params.id 
     //la facilidad de declarar esta variable es que nos ayuda a ocupar solamente un req.params para todas las variables que tenemos dentro de la url
@@ -128,7 +129,8 @@ router.get('/', (req, res) => {
    //los : indican que vamos a poner una variable en la url y el nombre que pongamos ahí lo deberemos seguir usando para pedir los parametros
    //Req recibe la petición del cliente y res es la respuesta que da el servidor
 
-   router.patch('/:productId', (req,res) => {
+   //router.patch('/:productId', (req,res) => {
+    router.patch('/:id', (req,res) => {
     //Aqui validamos el req antes de ejecutar la peticion
     let {status, message} = validateCreate(req.body)
     if(status){
@@ -137,14 +139,17 @@ router.get('/', (req, res) => {
         console.log("Aqui va status y message: ",status, message);
     }  
     //la constante productId es la que va a recibir los parametros de la url
-    const productId = req.params.productId
+   // const productId = req.params.productId
+   const id = req.params.id
+
     //la constante que recibe todos los componentes del body nos la da req.body
     const {
         nombre, clave, precio, impuestos
     } = req.body
     //findByIdAndUpdate localiza de acuerdo al id que le dimos y actualiza alos nuevos valores que enviamos a través de $set
     Productos.findByIdAndUpdate (
-        productId,
+       // productId,
+        id,
          {
         $set: {
             nombre,
@@ -199,7 +204,7 @@ router.post('/', (req, res) => {
     if(status){
         return res.json({message}), 400;
     }else{
-        console.log("Aqui va status y message: ",status, message);
+        console.log("Aqui va status y message: ",!status, message);
     }  
     //Para hacer el post defines una constante que va a ser el cuerpo del producto
     const body = req.body

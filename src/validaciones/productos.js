@@ -17,6 +17,8 @@ const validateCreate = (datos) => {
     }else if (typeof datos.impuestos !== 'number'){
         status = true
         message = "Impuestos debe ser un number"
+    }else{
+        message ="Todo jaló bien"
     }
     /*
     }else if (datos.matPrimas.length > 0 ){
