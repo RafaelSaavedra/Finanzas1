@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
+
 const egresoSchema = new mongoose.Schema ({
     fecha : {
         type: Date , 

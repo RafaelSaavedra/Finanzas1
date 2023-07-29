@@ -1,4 +1,6 @@
 const mongoose = require ('mongoose')
+
+
 const matPrimaSchema = new mongoose.Schema ({
     nombre : {
         type : String,

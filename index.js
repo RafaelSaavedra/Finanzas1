@@ -17,7 +17,6 @@ const proveedores = require ('./src/routes/proveedores');
 
 const morgan = require ('morgan')
 
-//console.log( )
 
 /*
 mongoose.connect('mongodb+srv://Rafael:15Anestesiologia20@cluster0.rnudzg3.mongodb.net/controlfinanzas?retryWrites=true&w=majority')
@@ -29,10 +28,11 @@ mongoose.connect('mongodb+srv://Rafael:15Anestesiologia20@cluster0.rnudzg3.mongo
 //})
 */
 app.use(morgan("dev"))
-app.use(express.json()) //esta linea es muy importante para el post
+app.use(express.json()) 
 app.use(express.urlencoded({
-    extends : true // tarea investigar para que sirve esta linea de codigo
+    extends : true 
 }))
+
 app.use('/api/productos', productos)
 app.use('/api/ingresos', ingresos)
 app.use('/api/clientes', clientes)
@@ -54,17 +54,6 @@ mongoose.connect(MONGOOSE_CONNECT)
 app.use(cors({
     origin:'*'
 }))
-
-app.get ('/', (req, res) => {
-    res.json([{
-        nombre:'Gato',
-        apellido:'Solis' 
-    },
-        {nombre:'Pedro',
-        apellido:'Páramo'
-    },
-    ])
-})
 
 app.listen(PORT, () => {
 console.log('Server Listening on port: http://localhost:3000');

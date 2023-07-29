@@ -21,7 +21,7 @@ router.post('/', (req, res) => {
             claveProducto : body.claveProducto,
             precio : body.precio,
             cantidad : body.cantidad,
-            total : body.precioTotal,
+            precioTotal : body.precioTotal,
             impuestos : body.impuestos,
             credito : body.credito,
             status : body.status

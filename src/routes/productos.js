@@ -60,14 +60,7 @@ router.put('/', (req, res) => {
     .catch ((error) => {
         res.json({error})
     })
-    res.json({
-        body
-    })
 
-})
-router.get('/:productId/prueba',(req, res) => {
-    const productId = req.params.productId
-    res.json({"Variable que nos llega por la url": productId})
 })
 
     router.patch('/:id', (req,res) => {
@@ -77,14 +70,14 @@ router.get('/:productId/prueba',(req, res) => {
     }else{
         console.log("Aqui va status y message: ",status, message);
     }  
-   const id = req.params.id
+    const id = req.params.id
 
     const {
         nombre, clave, precio, impuestos
     } = req.body
     Productos.findByIdAndUpdate (
         id,
-         {
+        {
         $set: {
             nombre,
             clave,
@@ -95,16 +88,16 @@ router.get('/:productId/prueba',(req, res) => {
         new: true
     }
     )
-   .then(() => {
+    .then(() => {
     res.json({"Mensaje": "Registro de productos actualizado"}),200
-   })
+    })
 
-   .catch((err) => {
+    .catch((err) => {
     res.json({ "Mensaje": err})
-   })
-   })
+    })
+    })
 
-   router.delete('/:productId', (req, res)=> {
+    router.delete('/:productId', (req, res)=> {
     const productId = req.params.productId
 
     Productos.findByIdAndDelete(
@@ -117,7 +110,6 @@ router.get('/:productId/prueba',(req, res) => {
             res.json({err})
         })
     })
-   
 
 router.post('/', (req, res) => {
     let {status, message} = validateCreate(req.body)

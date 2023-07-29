@@ -69,6 +69,7 @@ router.put('/', (req, res) =>{
         console.log("Aqui va status y message: ", status1, message);
     }
 
+    const body = req.body   
     const{proveedor, materiaPrima, claveMatPrima,precio, cantidad, precioTotal, impuestos, credito, status, id} = req.body
 
     Egresos.findByIdAndUpdate(

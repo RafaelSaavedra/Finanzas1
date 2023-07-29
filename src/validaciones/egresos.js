@@ -1,9 +1,7 @@
 const validateCreate = (datos) => {
-    //aqui puedo hacer console.log con typeof para checar que tipo de dato es:
-    console.log(typeof datos.fecha)
  
-    let status1 = false // Esta variable se ocupará para saber si es correcto el dato, false significa que si es correcto y true lo contrario
-    let message = " " // Aquí se mandará el mensaje del error
+    let status1 = false 
+    let message = " " 
 
     if (typeof datos.factura !== 'string'){
         status1 = true
@@ -40,12 +38,10 @@ const validateCreate = (datos) => {
 
     return {status1, message}
 } 
-//aqui vamos a poner una funcion que abarque varias condiciones
-//esta sera una forma para cuando tengamos demasiadas validaciones y no ponerlas en el if, solo llamando a la funcion para que los valide
+
 validateNum = (dato, max, type) => {
 
     return typeof dato !== type || dato > max
 }
-
 
 module.exports = {validateCreate}
